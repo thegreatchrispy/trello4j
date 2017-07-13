@@ -38,4 +38,6 @@ public interface BoardService {
 
 	Board createBoard(String idOrganization, String name, Map<String, String> keyValueMap);
 
+	void deleteBoard(String idBoard, String idOrganization);
+
 }

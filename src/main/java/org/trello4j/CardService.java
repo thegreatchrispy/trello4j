@@ -44,4 +44,6 @@ public interface CardService {
 	Card createCard(String idList, String name, Map<String, String> keyValueMap);
 
 	Card moveCard(String value, String idList, Map<String, String> keyValueMap);
+
+	void deleteCard(String idCard);
 }

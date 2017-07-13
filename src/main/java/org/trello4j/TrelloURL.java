@@ -34,6 +34,7 @@ public class TrelloURL {
 	public static final String BOARD_ORGANIZAION_URL = "https://api.trello.com/1/boards/{0}/organization";
 	public static final String BOARD_CLOSED_URL = "https://api.trello.com/1/boards/{0}/closed";
 	public static final String BOARD_POST_URL = "https://api.trello.com/1/boards";
+	public static final String BOARD_DELETE_URL = "https://api.trello.com/1/boards/{0}/members/{1}";
 	public static final String CARD_ACTION_URL = "https://api.trello.com/1/cards/{0}/actions";
 	public static final String CARD_ATTACHEMENT_URL = "https://api.trello.com/1/cards/{0}/attachments";
 	public static final String CARD_BOARD_URL = "https://api.trello.com/1/cards/{0}/board";
@@ -43,6 +44,7 @@ public class TrelloURL {
 	public static final String CARD_MEMBERS_URL = "https://api.trello.com/1/cards/{0}/members";
 	public static final String CARD_PUT_URL = "https://api.trello.com/1/cards/{0}/idBoard";
 	public static final String CARD_POST_URL = "https://api.trello.com/1/cards";
+	public static final String CARD_DELETE_URL = "https://api.trello.com/1/cards/{0}";
 	public static final String LIST_ACTIONS_URL = "https://api.trello.com/1/lists/{0}/action";
 	public static final String LIST_BOARD_URL = "https://api.trello.com/1/lists/{0}/board";
 	public static final String LIST_CARDS_URL = "https://api.trello.com/1/lists/{0}/cards";

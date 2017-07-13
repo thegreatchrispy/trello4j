@@ -101,6 +101,36 @@ public class TrelloImpl implements Trello {
 		
 		doDelete(url);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.trello4j.BoardService#deleteBoard(java.lang.String)
+	 */
+	@Override
+	public void deleteBoard(String idBoard, String idOrganization) {
+		final String url = TrelloURL
+				.create(apiKey, TrelloURL.BOARD_DELETE_URL, idBoard, idOrganization)
+				.token(token)
+				.build();
+		
+		doDelete(url);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.trello4j.WebhookService#deleteWebhook(java.lang.String)
+	 */
+	@Override
+	public void deleteCard(String idCard) {
+		final String url = TrelloURL
+				.create(apiKey, TrelloURL.CARD_DELETE_URL, idCard)
+				.token(token)
+				.build();
+		
+		doDelete(url);
+	}
 	
 	/*
 	 * (non-Javadoc)

@@ -59,4 +59,6 @@ public interface ListService {
 	 */
 	List createList(String idBoard, String name, Map<String, String> keyValueMap);
 
+	void deleteList(String idList);
+
 }
