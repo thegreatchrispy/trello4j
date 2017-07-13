@@ -581,6 +581,23 @@ public class TrelloImpl implements Trello {
 		}, doPost(url, keyValueMap));
 	}
 
+	@Override
+	public Board createBoard(String idOrganization, String name, Map<String, String> keyValueMap) {
+		validateObjectId(idOrganization);
+
+		final String url = TrelloURL
+				.create(apiKey, TrelloURL.BOARD_POST_URL)
+				.token(token)
+				.build();
+		if (keyValueMap == null) keyValueMap = new HashMap<String, String>();
+		//if (keyValueMap.containsKey("name")) keyValueMap.remove("name");
+		keyValueMap.put("name", name);
+		keyValueMap.put("idOrganization", idOrganization);
+
+		return trelloObjFactory.createObject(new TypeToken<Board>() {
+		}, doPost(url, keyValueMap));
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *

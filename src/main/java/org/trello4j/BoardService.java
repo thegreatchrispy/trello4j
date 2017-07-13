@@ -1,6 +1,7 @@
 package org.trello4j;
 
 import java.util.List;
+import java.util.Map;
 
 import org.trello4j.model.Action;
 import org.trello4j.model.Board;
@@ -34,5 +35,7 @@ public interface BoardService {
 	List<Card> getCardsByBoard(String boardId, String... filter);
 
 	Prefs getPrefsByBoard(String boardId);
+
+	Board createBoard(String idOrganization, String name, Map<String, String> keyValueMap);
 
 }
