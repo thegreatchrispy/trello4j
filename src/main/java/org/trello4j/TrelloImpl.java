@@ -548,6 +548,23 @@ public class TrelloImpl implements Trello {
 	}
 
 	@Override
+	public Card moveCard(String value, String idList, Map<String, String> keyValueMap) {
+		validateObjectId(idList);
+
+		final String url = TrelloURL
+				.create(apiKey, TrelloURL.CARD_PUT_URL)
+				.token(token)
+				.build();
+		if (keyValueMap == null) keyValueMap = new HashMap<String, String>();
+		//if (keyValueMap.containsKey("name")) keyValueMap.remove("name");
+		keyValueMap.put("value", value);
+		keyValueMap.put("idList", idList);
+
+		return trelloObjFactory.createObject(new TypeToken<Card>() {
+		}, doPost(url, keyValueMap));
+	}
+
+	@Override
 	public Card createCard(String idList, String name, Map<String, String> keyValueMap) {
 		validateObjectId(idList);
 
