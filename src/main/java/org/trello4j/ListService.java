@@ -5,6 +5,8 @@ import org.trello4j.model.Board;
 import org.trello4j.model.Card;
 import org.trello4j.model.List;
 
+import java.util.Map;
+
 /**
  * The Interface ListService.
  * 
@@ -47,5 +49,14 @@ public interface ListService {
 	 * @return the cards by list
 	 */
 	java.util.List<Card> getCardsByList(String listId, String... filter);
+
+	/**
+	 * Add a new {@link List} with the optional keyValue pairs.
+	 * @param idBoard Id of the {@link org.trello4j.model.Board}
+	 *               the list should be added to.
+	 * @param name Name of the new list.
+	 * @param keyValeMap Map of the optional key-value-pairs.
+	 */
+	List createList(String idBoard, String name, Map<String, String> keyValueMap);
 
 }
