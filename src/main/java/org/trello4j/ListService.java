@@ -57,8 +57,5 @@ public interface ListService {
 	 * @param name Name of the new list.
 	 * @param keyValeMap Map of the optional key-value-pairs.
 	 */
-	List createList(String idBoard, String name, Map<String, String> keyValueMap);
-
-	void deleteList(String idList);
-
+	org.trello4j.model.List createList(String idBoard, String name, Map<String, String> keyValueMap);
 }
