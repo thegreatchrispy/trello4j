@@ -108,9 +108,9 @@ public class TrelloImpl implements Trello {
 	 * @see org.trello4j.BoardService#deleteBoard(java.lang.String)
 	 */
 	@Override
-	public void deleteBoard(String idBoard, String idOrganization) {
+	public void deleteBoard(String idBoard, String idMember) {
 		final String url = TrelloURL
-				.create(apiKey, TrelloURL.BOARD_DELETE_URL, idBoard, idOrganization)
+				.create(apiKey, TrelloURL.BOARD_DELETE_URL, idBoard, idMember)
 				.token(token)
 				.build();
 		
