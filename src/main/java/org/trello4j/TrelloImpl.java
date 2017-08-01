@@ -12,6 +12,8 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -578,23 +580,6 @@ public class TrelloImpl implements Trello {
 	}
 
 	@Override
-	public Card moveCard(String value, String idList, Map<String, String> keyValueMap) {
-		validateObjectId(idList);
-
-		final String url = TrelloURL
-				.create(apiKey, TrelloURL.CARD_PUT_URL)
-				.token(token)
-				.build();
-		if (keyValueMap == null) keyValueMap = new HashMap<String, String>();
-		//if (keyValueMap.containsKey("name")) keyValueMap.remove("name");
-		keyValueMap.put("value", value);
-		keyValueMap.put("idList", idList);
-
-		return trelloObjFactory.createObject(new TypeToken<Card>() {
-		}, doPost(url, keyValueMap));
-	}
-
-	@Override
 	public Card createCard(String idList, String name, Map<String, String> keyValueMap) {
 		validateObjectId(idList);
 
@@ -606,6 +591,22 @@ public class TrelloImpl implements Trello {
 		//if (keyValueMap.containsKey("name")) keyValueMap.remove("name");
 		keyValueMap.put("name", name);
 		keyValueMap.put("idList", idList);
+
+		return trelloObjFactory.createObject(new TypeToken<Card>() {
+		}, doPost(url, keyValueMap));
+	}
+
+	@Override
+	public Card addMemberToCard(String idCard, String value, Map<String, String> keyValueMap) {
+		validateObjectId(idCard);
+
+		final String url = TrelloURL
+				.create(apiKey, TrelloURL.CARD_POST_MEMBER_URL, idCard)
+				.token(token)
+				.build();
+		if (keyValueMap == null) keyValueMap = new HashMap<String, String>();
+		//if (keyValueMap.containsKey("name")) keyValueMap.remove("name");
+		keyValueMap.put("value", value);
 
 		return trelloObjFactory.createObject(new TypeToken<Card>() {
 		}, doPost(url, keyValueMap));
@@ -1276,8 +1277,8 @@ public class TrelloImpl implements Trello {
 		return doRequest(url, METHOD_GET);
 	}
 
-	private InputStream doPut(String url) {
-		return doRequest(url, METHOD_PUT);
+	private InputStream doPut(String url, Map<String, String> map) {
+		return doRequest(url, METHOD_PUT, map);
 	}
 
 	private InputStream doPost(String url, Map<String, String> map) {
@@ -1300,6 +1301,10 @@ public class TrelloImpl implements Trello {
 	 */
 	private InputStream doRequest(String url, String requestMethod, Map<String, String> map) {
 		try {
+			//System.out.println("url: " + url);
+//start
+			
+//end
 			HttpsURLConnection conn = (HttpsURLConnection) new URL(url)
 					.openConnection();
 			conn.setRequestProperty("Accept-Encoding", "gzip, deflate");
@@ -1308,25 +1313,49 @@ public class TrelloImpl implements Trello {
 
             if(map != null && !map.isEmpty()) {
                 StringBuilder sb = new StringBuilder();
-                for (String key : map.keySet()) {
-                    sb.append(sb.length() > 0 ? "&" : "")
-                        .append(key)
+               	for (String key : map.keySet()) {
+                   	sb.append(sb.length() > 0 ? "&" : "") 
+                       	.append(key)
                         .append("=")
                         .append(URLEncoder.encode(map.get(key), "UTF-8"));
                 }
+                //System.out.println("sb.toString: " + sb.toString());
                 conn.getOutputStream().write(sb.toString().getBytes());
                 conn.getOutputStream().close();
+                //System.out.println("full url: " + url+sb.toString());
             }
-
 			if (conn.getResponseCode() > 399) {
+				//System.out.println("response code: " + conn.getResponseCode());
+//start
+				String message = conn.getResponseMessage() + "\n";
+
+				try {
+					BufferedReader br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+					String line = br.readLine();
+
+					while (line != null) {
+						message += line;
+						line = br.readLine();
+					}
+				}
+				catch (Exception exc) {
+					exc.printStackTrace();
+				}
+				//System.out.println(message);
+//end
 				return null;
 			} else {
+				//System.out.println(conn.getContentEncoding());
 				return getWrappedInputStream(
                     conn.getInputStream(), GZIP_ENCODING.equalsIgnoreCase(conn.getContentEncoding())
                 );
 			}
 		} catch (IOException e) {
 			throw new TrelloException(e.getMessage());
+		}
+		catch (Exception exc) {
+			exc.printStackTrace();
+			throw new TrelloException(exc.getMessage());
 		}
 	}
 
